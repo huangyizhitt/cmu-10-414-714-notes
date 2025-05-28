@@ -10,7 +10,7 @@
 ## 一、计算机系统实现微分的方式
 ### 1. 数值微分（Numerical differentiation）
 #### (1) 基本实现原理
-该方法是根据微分/偏微分的基本定义，使用有限差分作近似计算。对于 $f(\mathbf{ \theta }):R^n \rightarrow R$，梯度 $\nabla f=(\frac{\partial f}{\partial \theta_1}, \frac{\partial f}{\partial \theta_2}, ..., \frac{\partial f}{\partial \theta_n})$。
+该方法是根据微分/偏微分的基本定义，使用有限差分作近似计算。对于 $f(\vec{ \theta }):R^n \rightarrow R$，梯度 $\nabla f=(\frac{\partial f}{\partial \theta_1}, \frac{\partial f}{\partial \theta_2}, ..., \frac{\partial f}{\partial \theta_n})$。
 其中， $\frac{\partial f(\bm{ \theta })}{\partial \theta_i}$偏微分定义为：
 
 $$
