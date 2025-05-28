@@ -7,6 +7,8 @@
 </p>
 <p align="center"><b>图 1：</b> Mini-Batch Gradient Descent算法更新参数</p>
 
+\usepackage{bm}
+
 ## 一、计算机系统实现微分的方式
 ### 1. 数值微分（Numerical differentiation）
 #### (1) 基本实现原理
