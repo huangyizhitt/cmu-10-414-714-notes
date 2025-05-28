@@ -1,3 +1,8 @@
+---
+layout: default
+title: 自动微分
+---
+
 # 自动微分 （Automatic differentiation）
 
 深度学习训练参数时，使用主流优化器，如SGD、Adam等，均依赖梯度计算，如图1中所使用的小批量随机梯度下降算法（Mini-Batch Gradient Descent）。因此，训练过程中，<span style="color:red">使计算机快速、准确、通用地进行微分计算是构建深度学习系统的一个关键技术</span>
