@@ -11,7 +11,7 @@
 ### 1. 数值微分（Numerical differentiation）
 #### (1) 基本实现原理
 该方法是根据微分/偏微分的基本定义，使用有限差分作近似计算。对于$f(\bm{ \theta }):R^n \rightarrow R$，梯度$\nabla f=(\frac{\partial f}{\partial \theta_1}, \frac{\partial f}{\partial \theta_2}, ..., \frac{\partial f}{\partial \theta_n})$。
-其中，$\frac{\partial f(\bm{ \theta })}{\partial \theta_i}$偏微分定义为：
+其中，$`\frac{\partial f(\bm{ \theta })}{\partial \theta_i}`$偏微分定义为：
 $$
     \frac{\partial f(\bm{ \theta })}{\partial \theta_i}=\lim_{\epsilon \to 0} \frac{f(\bm{ \theta }+\epsilon e_i)-f(\bm{ \theta })}{\epsilon}   \quad     \epsilon>0
 $$
