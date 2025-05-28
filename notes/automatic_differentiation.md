@@ -11,10 +11,10 @@
 ### 1. 数值微分（Numerical differentiation）
 #### (1) 基本实现原理
 该方法是根据微分/偏微分的基本定义，使用有限差分作近似计算。对于 $f(\vec{ \theta }):R^n \rightarrow R$，梯度 $\nabla f=(\frac{\partial f}{\partial \theta_1}, \frac{\partial f}{\partial \theta_2}, ..., \frac{\partial f}{\partial \theta_n})$。
-其中， $\frac{\partial f(\bm{ \theta })}{\partial \theta_i}$偏微分定义为：
+其中， $\frac{\partial f(\vec{ \theta })}{\partial \theta_i}$偏微分定义为：
 
 $$
-    \frac{\partial f(\bm{ \theta })}{\partial \theta_i}=\lim_{\epsilon \to 0} \frac{f(\bm{ \theta }+\epsilon e_i)-f(\bm{ \theta })}{\epsilon}   \quad     \epsilon>0
+    \frac{\partial f(\vec{ \theta })}{\partial \theta_i}=\lim_{\epsilon \to 0} \frac{f(\vec{ \theta }+\epsilon e_i)-f(\vec{ \theta })}{\epsilon}   \quad     \epsilon>0
 $$
 
 如果，$n=1$，即$\theta$是个标量，那么采用微分公式，即：
@@ -39,12 +39,12 @@ $$
 #### (4) 改进方法
 使用高阶中心差分法，以二阶为例：
 $$
-    \frac{\partial f(\bm{ \theta })}{\partial \theta_i}=\frac{f(\bm{ \theta }+\epsilon e_i)-f(\bm{ \theta }-\epsilon e_i)}{2\epsilon} + O(\epsilon^2)   \quad     \epsilon>0
+    \frac{\partial f(\vec{ \theta })}{\partial \theta_i}=\frac{f(\vec{ \theta }+\epsilon e_i)-f(\vec{ \theta }-\epsilon e_i)}{2\epsilon} + O(\epsilon^2)   \quad     \epsilon>0
 $$
 
 #### (5) 实际用途
 数值微分存在的缺点使其难以真正作为梯度计算方法用于训练场景。但是，这并不意味着该方法完全没用。事实上，在深度学习系统中，数值微分通常作为单元测试，去验证自动微分的正确性。
 $$
-    \delta^T \nabla_{\theta} f(\bm{ \theta })=\frac{f(\bm{ \theta }+\epsilon \delta)-f(\bm{ \theta }-\epsilon \delta)}{2\epsilon} + O(\epsilon^2)   \quad     \epsilon>0
+    \delta^T \nabla_{\theta} f(\vec{ \theta })=\frac{f(\vec{ \theta }+\epsilon \delta)-f(\vec{ \theta }-\epsilon \delta)}{2\epsilon} + O(\epsilon^2)   \quad     \epsilon>0
 $$
 从unitball中取$\delta$来验证自动微分的计算
