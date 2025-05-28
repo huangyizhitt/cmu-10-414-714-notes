@@ -1,0 +1,8 @@
+title: LaTeX Demo
+description: GitHub Pages with MathJax support
+theme: minima
+markdown: kramdown
+
+kramdown:
+  math_engine: mathjax
+  input: GFM
