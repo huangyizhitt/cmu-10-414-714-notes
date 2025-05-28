@@ -18,7 +18,7 @@ $$
 
 如果，$n=1$，即$\theta$是个标量，那么采用微分公式，即：
 $$
-    \frac{d f(\theta)}{d \theta}=\lim_{\epsilon \to 0} \frac{f(\theta+\epsilon e_i)-f(\theta)}{\epsilon}   \quad     \epsilon>0
+\frac{d f(\theta)}{d \theta}=\lim_{\epsilon \to 0} \frac{f(\theta+\epsilon e_i)-f(\theta)}{\epsilon}   \quad     \epsilon>0
 $$
 
 #### (2) 代码实现
