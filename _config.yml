@@ -1,6 +1,6 @@
 title: LaTeX Demo
 description: GitHub Pages with MathJax support
-theme: minima
+theme: jekyll-theme-minimal
 markdown: kramdown
 
 kramdown:
