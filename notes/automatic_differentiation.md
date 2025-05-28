@@ -11,13 +11,13 @@
 ### 1. 数值微分（Numerical differentiation）
 #### (1) 基本实现原理
 该方法是根据微分/偏微分的基本定义，使用有限差分作近似计算。对于 $f(\vec{ \theta }):R^n \rightarrow R$，梯度 $\nabla f=(\frac{\partial f}{\partial \theta_1}, \frac{\partial f}{\partial \theta_2}, ..., \frac{\partial f}{\partial \theta_n})$。
-其中， $\frac{\partial f(\vec{ \theta })}{\partial \theta_i}$偏微分定义为：
+其中， $\frac{\partial f(\vec{ \theta })}{\partial \theta_i}$ 偏微分定义为：
 
 $$
     \frac{\partial f(\vec{ \theta })}{\partial \theta_i}=\lim_{\epsilon \to 0} \frac{f(\vec{ \theta }+\epsilon e_i)-f(\vec{ \theta })}{\epsilon}   \quad     \epsilon>0
 $$
 
-如果， $n=1$，即 $\theta$是个标量，那么采用微分公式，即：
+如果， $n=1$，即 $\theta$ 是个标量，那么采用微分公式，即：
 
 $$
 \frac{d f(\theta)}{d \theta}=\lim_{\epsilon \to 0} \frac{f(\theta+\epsilon e_i)-f(\theta)}{\epsilon}   \quad     \epsilon>0
@@ -34,8 +34,8 @@ $$
 #### (3) 优缺点
 按照数值微分的方式实现求梯度具有实现简单、通用的优点，但是具有<span style="color:red">三个明显不适合计算机计算的缺点</span>
 + 计算结果不精确
-+ 计算复杂度随着函数 $f$变化
-+ 计算结果对 $\epsilon$的取值要求高
++ 计算复杂度随着函数 $f$ 变化
++ 计算结果对 $\epsilon$ 的取值要求高
 
 #### (4) 改进方法
 使用高阶中心差分法，以二阶为例：
@@ -51,4 +51,4 @@ $$
     \delta^T \nabla_{\theta} f(\vec{ \theta })=\frac{f(\vec{ \theta }+\epsilon \delta)-f(\vec{ \theta }-\epsilon \delta)}{2\epsilon} + O(\epsilon^2)   \quad     \epsilon>0
 $$
 
-从unitball中取 $\delta$来验证自动微分的计算
+从unitball中取 $\delta$ 来验证自动微分的计算
