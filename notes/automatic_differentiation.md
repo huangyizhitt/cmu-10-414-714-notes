@@ -1,8 +1,3 @@
----
-layout: default
-title: 自动微分
----
-
 # 自动微分 （Automatic differentiation）
 
 深度学习训练参数时，使用主流优化器，如SGD、Adam等，均依赖梯度计算，如图1中所使用的小批量随机梯度下降算法（Mini-Batch Gradient Descent）。因此，训练过程中，<span style="color:red">使计算机快速、准确、通用地进行微分计算是构建深度学习系统的一个关键技术</span>
@@ -17,14 +12,14 @@ title: 自动微分
 #### (1) 基本实现原理
 该方法是根据微分/偏微分的基本定义，使用有限差分作近似计算。对于$f(\bm{ \theta }):R^n \rightarrow R$，梯度$\nabla f=(\frac{\partial f}{\partial \theta_1}, \frac{\partial f}{\partial \theta_2}, ..., \frac{\partial f}{\partial \theta_n})$。
 其中，$\frac{\partial f(\bm{ \theta })}{\partial \theta_i}$偏微分定义为：
-\[
+$$
     \frac{\partial f(\bm{ \theta })}{\partial \theta_i}=\lim_{\epsilon \to 0} \frac{f(\bm{ \theta }+\epsilon e_i)-f(\bm{ \theta })}{\epsilon}   \quad     \epsilon>0
-\]
+$$
 
 如果，$n=1$，即$\theta$是个标量，那么采用微分公式，即：
-\[
+$$
     \frac{d f(\theta)}{d \theta}=\lim_{\epsilon \to 0} \frac{f(\theta+\epsilon e_i)-f(\theta)}{\epsilon}   \quad     \epsilon>0
-\]
+$$
 
 #### (2) 代码实现
 那么，根据上述公式，可设计求梯度的函数为：
@@ -42,13 +37,13 @@ title: 自动微分
 
 #### (4) 改进方法
 使用高阶中心差分法，以二阶为例：
-\[
+$$
     \frac{\partial f(\bm{ \theta })}{\partial \theta_i}=\frac{f(\bm{ \theta }+\epsilon e_i)-f(\bm{ \theta }-\epsilon e_i)}{2\epsilon} + O(\epsilon^2)   \quad     \epsilon>0
-\]
+$$
 
 #### (5) 实际用途
 数值微分存在的缺点使其难以真正作为梯度计算方法用于训练场景。但是，这并不意味着该方法完全没用。事实上，在深度学习系统中，数值微分通常作为单元测试，去验证自动微分的正确性。
-\[
+$$
     \delta^T \nabla_{\theta} f(\bm{ \theta })=\frac{f(\bm{ \theta }+\epsilon \delta)-f(\bm{ \theta }-\epsilon \delta)}{2\epsilon} + O(\epsilon^2)   \quad     \epsilon>0
-\]
+$$
 从unitball中取$\delta$来验证自动微分的计算
