@@ -109,19 +109,19 @@ $$
 导数的链式法则：
 
 $$
-\frac{\partial y}{\partial x} = \frac{\partial y}{\partial u_n} \cdot \frac{\partial u_n}{\partial u_{n-1}} \cdot ... \cdot \frac{\partial u_2}{\partial u_{1}} \cdot \frac{u_1}{x}
+\frac{\partial y}{\partial x} = \frac{\partial y}{\partial u_n} \cdot \frac{\partial u_n}{\partial u_{n-1}} \cdot ... \cdot \frac{\partial u_2}{\partial u_{1}} \cdot \frac{\partial u_1}{\partial x}
 $$
 
 按照乘法的结合律，链式法则的计算过程可以按正向过程计算，也可以按反向过程计算。正向计算如下：
 
 $$
-\frac{\partial y}{\partial x} = (\frac{\partial y}{\partial u_n} \cdot (\frac{\partial u_n}{\partial u_{n-1}} (\cdot ... \cdot (\frac{\partial u_2}{\partial u_{1}} \cdot \frac{u_1}{x}))))
+\frac{\partial y}{\partial x} = (\frac{\partial y}{\partial u_n} \cdot (\frac{\partial u_n}{\partial u_{n-1}} (\cdot ... \cdot (\frac{\partial u_2}{\partial u_{1}} \cdot \frac{\partial u_1}{\partial x}))))
 $$
 
 正向计算过程是从输入端开始计算求导，反向过程则是从输出端开始计算求导，反向计算如下：
 
 $$
-\frac{\partial y}{\partial x} = (((\frac{\partial y}{\partial u_n} \cdot \frac{\partial u_n}{\partial u_{n-1}})\cdot ...) \cdot \frac{\partial u_2}{\partial u_{1}}) \cdot \frac{u_1}{x}
+\frac{\partial y}{\partial x} = (((\frac{\partial y}{\partial u_n} \cdot \frac{\partial u_n}{\partial u_{n-1}})\cdot ...) \cdot \frac{\partial u_2}{\partial u_{1}}) \cdot \frac{\partial u_1}{\partial x}
 $$
 
 ### (2) 优缺点
