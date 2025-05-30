@@ -131,3 +131,75 @@ $$
 
 # 二、深度学习系统中自动微分的实现
 
+## 1. 计算图
+为了更方便将复杂计算分解成基本运算操作子，可以将任意计算表示成一个有向无环图（Directed Acyclic Graph, DAG）。其中顶点为计算时的操作和数值，边为数据流或依赖关系。例如：
+
+$$
+    y=f(x_1, x_2)=\ln(x_1) + x_1 \cdot x_2 - \sin x_2
+$$
+
+该计算式可被转换成计算图：
+
+<p align="center">
+  <img src="../img/Computational_graph.png" alt="求梯度" width="80%">
+</p>
+<p align="center"><b>图 2：</b> 计算图示例</p>
+
+注意，在深度学习训练系统设计过程中，并不需要真的建立一个DAG。而是通过建立网络关系式时，把DAG的连接关系保存在Tensor（一种通用的数据表示结构，是深度学习中最基础的数据单元，也是计算图中的顶点）中。
+
+
+## 2. 自动微分示例
+假设图中 $x_1=2$, $x_2=5$，进行前向自动微分和反向自动微分定义
+
+### (1) 前向自动微分
+定义 $\dot{v_i} = \frac{\partial v_i}{\partial x_1}$，可根据计算图推导前向自动微分
+
+|   步骤   |   计算变量   |   前向自动微分   |
+|:------:|:------:|:------:|
+|  输入   |  $v_1 = x_1 = 2$   |  $\dot{v_1} = 1$   |
+|  输入   |  $v_2=x_2=5$   |  $\dot{v_2} = 0$   |
+|  1   |  $v_3=\ln v_1 = \ln 2 = 0.693$   |  $\dot{v_3} = \frac{\dot{v1}}{v1} = 0.5$   |
+|  2   |  $v_4 = v1 \times v2 = 10$   |  $\dot{v_4}=\dot{v1}\cdot v_2 + v1 \cdot \dot{v_2} = 5$   |
+|  3   |  $v_5 = \sin{v_2} = -0.959$   |  $\dot{v_5}=\cos{v_2}\cdot \dot{v_2} = 0$   |
+|  4   |  $v_6 = v_3 + v_4 = 10.693$  |  $\dot{v_6} = \dot{v_3} + \dot{v_4} = 5.5$   |
+|  5   |  $v_7 = v_6 - v_5 = 11.652$  |  $\dot{v_7} = \dot{v_6} + \dot{v_5} = 5.5$   |
+|  输出   |  $y = v_7 = 11.652$   |  $\frac{\partial y}{x_1} = \dot{v_7} = 5.5$   |
+
+想要求 $\frac{\partial v_i}{\partial x_2}$ ,还必须再走一次传播流程。
+
+### (2) 反向自动微分
+定义 $v_i$ 的伴随值（ $y$ 对 $v_i$ 的偏导）为 $ \bar v_i = \frac{\partial y}{\partial v_i} $，根据计算图推导反向自动微分过程
+
+|   步骤   | 用到的计算式 |   反向自动微分   |
+|:------:|:------:|:------:|
+|  1   | $y = v_7$ | $\bar v_7 = \frac{\partial y}{\partial v_7} = 1$   |
+|  2   | $v_7 = v_6 - v_5$ | $\bar v_6 = \bar v_7 \cdot \frac{\partial v_7}{\partial v_6} = 1 \cdot 1 = 1$   |
+|  3   | $v_7 = v_6 - v_5$ | $\bar v_5 = \bar v_7 \cdot \frac{\partial v_7}{\partial v_5} = 1 \cdot (-1) = -1$   |
+|  4   | $v_6 = v_3 + v_4$ | $\bar v_4 = \bar v_6 \cdot \frac{\partial v_6}{\partial v_4} = 1 \cdot 1 = 1$   |
+|  5   |  $v_6 = v_3 + v_4$ | $\bar v_3 = \bar v_6 \cdot \frac{\partial v_6}{\partial v_3} = 1 \cdot 1 = 1$ |
+|  输出   |  $v_5 = \sin v_2$ <br> $v_4 = v_1 \cdot v_2$ | $\frac{\partial y}{\partial x_2} = \bar v_2 = \bar v_4 \cdot \frac{\partial v_4}{\partial v_2} + \bar v_5 \cdot \frac{\partial v_5}{\partial v_2} = 1 \cdot v_1 + (-1) \cdot \cos v_2 = 1.716$  |
+|  输出   |  $v_4 = v_1 \cdot v_2$ <br> $v_3 = \ln v_1$  | $\frac{\partial y}{\partial x_1} = \bar v_1 = \bar v_3 \cdot \frac{\partial v_3}{\partial v_1} + \bar v_4 \cdot \frac{\partial v_4}{\partial v_1} = 1\cdot \frac{1}{v_1} + 1 \cdot v_2 = 5.5$ |
+
+由于函数 $y = f(x_1, x_2)$ 是两个输入、一个输出，通过反向自动微分只需要一次完整的反向传递就能计算出对两个输出的偏微分。
+
+## 3. 反向自动微分算法
+
+
+```
+    def gradient(out):
+        # 存储每个每个节点的伴随值列表
+        node_to_grad = {out: [1]}
+
+        # 从反向拓扑需中取节点并计算输出对它的微分
+        for i in reverse_topo_order(out):
+            # 计算第i个节点的伴随值
+            adjoint[i] = sum(node_to_grad[i])
+            
+            for j in inputs[i]:
+                # 求出第i个节点的每一个输入节点对它的伴随值
+                adjoint_j_i = adjoint[i] * partial(i, k);
+                # 这个伴随值会被用于计算j的伴随值
+                node_to_grad[j].append(adjoint_j_i)
+        
+        return adjoint[in]
+```
